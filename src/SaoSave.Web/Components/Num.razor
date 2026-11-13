@@ -1,0 +1,18 @@
+@* A number box. Out-of-range input is clamped. *@
+<input type="number" min="@Min" max="@Max" step="@Step" value="@Shown" @onchange="Changed" />
+
+@code {
+    [Parameter] public double Value { get; set; }
+    [Parameter] public double Min { get; set; } = 0;
+    [Parameter] public double Max { get; set; } = int.MaxValue;
+    [Parameter] public double Step { get; set; } = 1;
+    [Parameter] public EventCallback<double> OnSet { get; set; }
+
+    private string Shown => Value.ToString("0.####", System.Globalization.CultureInfo.InvariantCulture);
+
+    private async Task Changed(ChangeEventArgs e)
+    {
+        if (double.TryParse(e.Value?.ToString(), System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out var v))
+            await OnSet.InvokeAsync(Math.Clamp(v, Min, Max));
+    }
+}

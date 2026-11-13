@@ -1,0 +1,47 @@
+<div class="form">
+    <p class="note">
+        Every save slot has a player and an ArFA-sys partner. Unused slots show the game's defaults ("Player", "Afasys").
+        Stats are the points spent: 0 shows as 1 in game, each point adds 1. Level comes from total EXP (the game works it out).
+        Companions such as Kureha are not stored here: their stats come from their level.
+    </p>
+    <div class="table-wrap">
+        <table>
+            <thead>
+                <tr>
+                    <th>Who</th><th>Name</th><th>EXP (total)</th><th>Credits</th><th>CP</th><th>SP</th>
+                    <th>STR</th><th>VIT</th><th>INT</th><th>AGI</th><th>DEX</th><th>LUC</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var c in S.Save!.Characters)
+                {
+                    var ch = c;
+                    <tr>
+                        <td>@ch.Label</td>
+                        <td>@ch.Name</td>
+                        <td class="num"><Num Value="ch.Experience" Max="99999999" OnSet="v => Set(ch, () => ch.Experience = (int)v)" /></td>
+                        <td class="num"><Num Value="ch.Money" Max="2000000000" OnSet="v => Set(ch, () => ch.Money = (int)v)" /></td>
+                        <td class="num"><Num Value="ch.CustomizePoints" Max="9999999" OnSet="v => Set(ch, () => ch.CustomizePoints = (int)v)" /></td>
+                        <td class="num"><Num Value="ch.SkillPoints" Max="9999999" OnSet="v => Set(ch, () => ch.SkillPoints = (int)v)" /></td>
+                        @foreach (var stat in new[] { 0, 2, 4, 1, 3, 5 })
+                        {
+                            int s = stat;
+                            <td class="num"><Num Value="ch.GetStat(s)" Max="9999" OnSet="v => Set(ch, () => ch.SetStat(s, (int)v))" /></td>
+                        }
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@code {
+    [CascadingParameter] public EditorState S { get; set; } = default!;
+
+    private void Set(SaoCharacter c, Action write)
+    {
+        write();
+        S.MarkDirty();
+        S.Log($"Changed {c.Label}.");
+    }
+}

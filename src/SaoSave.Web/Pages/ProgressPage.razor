@@ -1,0 +1,66 @@
+<div class="form">
+    <p class="note">
+        Game options, play record (play time in seconds, reward points, medals), ArFA-sys pocket money and AI, and companion
+        affinity per save slot. Values are read from the places the game's own loader reads them. Slots you have not started show defaults.
+    </p>
+    <div class="toolbar">
+        <button @onclick="MaxMedals">Max medals (every slot)</button>
+        <input class="grow" type="text" placeholder="Search (try: play time, medals, pocket money)" @bind="_filter" @bind:event="oninput" />
+    </div>
+    <div class="table-wrap">
+        <table>
+            <thead><tr><th>Group</th><th>Setting</th><th>Value</th><th>Note</th></tr></thead>
+            <tbody>
+                @foreach (var f in Shown)
+                {
+                    var field = f;
+                    <tr>
+                        <td>@field.Group</td>
+                        <td>@field.Name</td>
+                        <td class="num"><Num Value="Math.Round(S.Save!.GetField(field), 4)" Min="Min(field)" Max="Max(field)" Step="Step(field)" OnSet="v => Set(field, v)" /></td>
+                        <td class="muted">@Note(field)</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@code {
+    [CascadingParameter] public EditorState S { get; set; } = default!;
+    private const int MedalMax = 99_999;
+    private string _filter = "";
+
+    private IEnumerable<SaoField> Shown => S.Save!.Fields.Where(f => _filter.Length == 0
+        || f.Group.Contains(_filter, StringComparison.OrdinalIgnoreCase) || f.Name.Contains(_filter, StringComparison.OrdinalIgnoreCase));
+
+    private static double Min(SaoField f) => f.Kind is FieldKind.Float ? -1e9 : 0;
+    private static double Max(SaoField f) => f.Kind switch
+    {
+        FieldKind.Byte => 255, FieldKind.Bool32 => 1, FieldKind.Float => 1e9, FieldKind.Int64 => 9e15, _ => int.MaxValue,
+    };
+    private static double Step(SaoField f) => f.Kind == FieldKind.Float ? 0.1 : 1;
+
+    private static string Note(SaoField f) => f.Kind switch
+    {
+        FieldKind.Bool32 => "1 = on, 0 = off",
+        FieldKind.Byte => f.Note.Length > 0 ? f.Note : "0 to 255",
+        _ => f.Note,
+    };
+
+    private void Set(SaoField f, double v)
+    {
+        S.Save!.SetField(f, v);
+        S.MarkDirty();
+        S.Log($"{f.Group}: {f.Name} = {v:0.####}");
+    }
+
+    private void MaxMedals()
+    {
+        var medals = S.Save!.Fields.Where(f => f.Note == "medal count").ToList();
+        foreach (var m in medals) S.Save.SetField(m, MedalMax);
+        S.MarkDirty();
+        S.Log($"Set {medals.Count} medal counts to {MedalMax:N0}.");
+        S.Rebuild();
+    }
+}

@@ -1,0 +1,130 @@
+@inject IJSRuntime JS
+
+@if (S.Tree == null)
+{
+    <p class="warning">This save could not be read as the game's full layout, so this page is off. The other pages still work.@(S.TreeError == null ? "" : "\n" + S.TreeError)</p>
+}
+else
+{
+    <div class="form">
+        <h2>Every value in your save, in folders. For most things the other pages are easier.</h2>
+        <p class="note">
+            1. Open a folder with its arrow. 2. Click a row: the box at the bottom says what it is. 3. Click the Value box, type a new number, press Enter. 4. Press Save at the top.
+            On/off values: type On or Off. A change the game could not read is refused, so you cannot break the file with a typo.
+        </p>
+        <div class="toolbar">
+            <input class="grow" type="text" placeholder="Search (try: credits, play time, medals)" @bind="_query" @bind:event="oninput" @onkeydown="OnKey" />
+            <button @onclick="FindNext">Find next</button>
+            <button @onclick="@(() => Jump("Player/credits"))">Credits</button>
+            <button @onclick="@(() => Jump("Player/experience"))">EXP</button>
+            <button @onclick="@(() => Jump("Play record/play time (seconds)"))">Play time</button>
+            <button @onclick="@(() => Jump("Play record/medals"))">Medals</button>
+            <button @onclick="@(() => Jump("ArFA-sys data/pocket money"))">Partner money</button>
+        </div>
+        <div class="toolbar">
+            <button @onclick="AddCopy">Add a copy to the list</button>
+            <button @onclick="RemoveSelected">Remove from the list</button>
+            <label><input type="checkbox" checked="@S.ShowUnknown" @onchange="e => { S.ShowUnknown = (bool)e.Value!; }" /> Also show fields nobody understands yet</label>
+        </div>
+
+        <div class="table-wrap atree" style="max-height:calc(100vh - 420px)">
+            <div class="arow head"><span>What</span><span>Value (click to change)</span><span>What it does</span></div>
+            <TreeRows Parent="S.Tree" Depth="0" />
+        </div>
+
+        <div class="infobox @(Sel != null && AdvancedHelp.Risky(Sel) ? "risky" : "")">@InfoText</div>
+    </div>
+}
+
+@code {
+    [CascadingParameter] public EditorState S { get; set; } = default!;
+
+    private string _query = "";
+
+    private void OnKey(KeyboardEventArgs e) { if (e.Key == "Enter") FindNext(); }
+
+    private string? _selFor;
+    private SaoNode? _sel;
+    private SaoNode? Sel
+    {
+        get
+        {
+            if (S.Selected == null || S.Tree == null) return null;
+            if (_selFor != S.Selected || _sel == null || !ReferenceEquals(_sel.Parent == null ? _sel : Top(_sel), S.Tree))
+            {
+                _selFor = S.Selected;
+                _sel = S.Tree.Descendants().FirstOrDefault(n => n.Path == S.Selected);
+            }
+            return _sel;
+        }
+    }
+
+    private static SaoNode Top(SaoNode n) { while (n.Parent != null) n = n.Parent; return n; }
+
+    private string InfoText
+    {
+        get
+        {
+            var n = Sel;
+            if (n == null) return "Click a row to see what it is.";
+            string value = n.IsValue || n.Kind == NodeKind.Str ? $"   Now: {S.Val(n)}" : "";
+            return $"{TreeRows.DisplayName(n)}{value}\n{AdvancedHelp.Describe(n)}{(AdvancedHelp.Risky(n) ? "  Careful: this one is easy to break." : "")}";
+        }
+    }
+
+    /// <summary>Opens every folder down to a path and selects it.</summary>
+    private void Reveal(SaoNode n)
+    {
+        for (var p = n.Parent; p != null; p = p.Parent) S.Expanded.Add(p.Path);
+        S.Selected = n.Path;
+        _ = JS.InvokeVoidAsync("zxScrollToSoon", n.Path);
+    }
+
+    private void Jump(string rel)
+    {
+        string slotName = Enumerable.Range(1, 16).Select(i => S.Tree!.Find($"Slot {i}")).TakeWhile(s => s != null)
+            .FirstOrDefault(s => s!.Find("Player/name/source")?.Text is { } nm && nm != "Player")?.Name ?? "Slot 1";
+        var n = S.Tree!.Find($"{slotName}/{rel}");
+        if (n == null) { S.Log($"{rel} was not found in this save."); return; }
+        Reveal(n);
+    }
+
+    private void FindNext()
+    {
+        if (string.IsNullOrWhiteSpace(_query) || S.Tree == null) return;
+        var from = Sel;
+        bool started = from == null;
+        foreach (var n in S.Tree.Descendants())
+        {
+            if (!started) { started = n == from; continue; }
+            if (!S.ShowUnknown && AdvancedHelp.IsUnknown(n)) continue;
+            if (n.Name.Contains(_query, StringComparison.OrdinalIgnoreCase) || AdvancedHelp.Friendly(n).Contains(_query, StringComparison.OrdinalIgnoreCase)
+                || n.Kind == NodeKind.Str && (n.Text ?? "").Contains(_query, StringComparison.OrdinalIgnoreCase))
+            {
+                Reveal(n);
+                return;
+            }
+        }
+        S.Log($"\"{_query}\" not found after the selected entry.");
+    }
+
+    private void AddCopy()
+    {
+        var n = Sel;
+        var list = n?.Kind == NodeKind.List ? n : n?.Parent;
+        if (list == null) { S.Notice("Select a list, or an entry of a list, first."); return; }
+        try { S.Replace(SaoTreeEdit.AddCopy(S.Save!, list), $"{list.Path}: added a copy of the last entry."); }
+        catch (Exception ex) when (ex is ArgumentException or SaoParseException or InvalidDataException) { S.Notice(ex.Message); }
+    }
+
+    private void RemoveSelected()
+    {
+        var n = Sel;
+        if (n?.Parent is not { Kind: NodeKind.List }) { S.Notice("Select an entry of a list first."); return; }
+        S.Ask($"Remove {n.Path}?", () =>
+        {
+            try { S.Replace(SaoTreeEdit.Remove(S.Save!, n), $"{n.Path}: removed."); }
+            catch (Exception ex) when (ex is ArgumentException or SaoParseException or InvalidDataException) { S.Notice(ex.Message); }
+        });
+    }
+}

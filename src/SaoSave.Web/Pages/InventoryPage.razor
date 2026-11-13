@@ -1,0 +1,171 @@
+@if (Bag == null)
+{
+    <p class="warning">No inventory was found in this save.</p>
+}
+else
+{
+    <div class="form">
+        <div class="toolbar">
+            <select @onchange="e => { _kind = e.Value!.ToString()!; _pick = string.Empty; }">
+                @foreach (var k in new[] { "All kinds", "Weapon", "Costume", "Accessory", "Bullet", "Material" })
+                {
+                    <option value="@k" selected="@(k == _kind)">@k</option>
+                }
+            </select>
+            <label><input type="checkbox" checked="@_dlcOnly" @onchange="e => { _dlcOnly = (bool)e.Value!; _pick = string.Empty; }" /> DLC only</label>
+            <div style="width:420px">
+                <Picker Items="Wanted" Current="@_pick" Placeholder="Pick an item to add (type to search)" OnPick="key => _pick = key" />
+            </div>
+            <button class="primary" @onclick="AddOne">Add item</button>
+            <button @onclick="AddAll">Add all shown I don't have</button>
+            <button disabled="@(_checked.Count == 0)" @onclick="RemoveChecked">Remove ticked (@_checked.Count)</button>
+        </div>
+        <p class="note">
+            Bag: @Bag.Used of @Bag.Slots.Count slots used. Quantity and weapon level can be edited in the list.
+            Chips: click a weapon's row, then use the chip editor under the list.
+        </p>
+        <div class="toolbar">
+            <input class="grow" type="text" placeholder="Search the bag" @bind="_filter" @bind:event="oninput" />
+        </div>
+
+        @if (Focus is { Category: ItemCategory.Weapon } rec)
+        {
+            <div class="chips">
+                <b>@SaoItems.NameOf(rec.Id)</b>
+                @if (rec.Chips.Count == 0) { <span class="muted">no chips yet.</span> }
+                @for (int i = 0; i < rec.Chips.Count; i++)
+                {
+                    int n = i;
+                    <span class="chip">
+                        <select @onchange="e => SetChip(rec, n, byte.Parse(e.Value!.ToString()!))">
+                            @foreach (var (id, name) in SaoItems.Chips)
+                            {
+                                <option value="@id" selected="@(id == rec.Chips[n].Id)">@name</option>
+                            }
+                        </select>
+                        <span style="width:110px"><Num Value="Math.Round(rec.Chips[n].Effect * 100, 2)" Max="999" Step="5" OnSet="v => SetEffect(rec, n, (float)v)" /></span>%
+                        <button @onclick="() => DropChip(rec, n)">X</button>
+                    </span>
+                }
+                @if (rec.Chips.Count < MaxChips)
+                {
+                    <button @onclick="() => AddChip(rec)">Add a chip</button>
+                }
+            </div>
+        }
+
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr><th></th><th>Slot</th><th>Item</th><th>Game ID</th><th>Kind</th><th>DLC</th><th>Quantity</th><th>Level</th><th>Chips</th></tr>
+                </thead>
+                <tbody>
+                    @foreach (var (r, slot) in Rows)
+                    {
+                        var rec2 = r;
+                        int s = slot;
+                        <tr class="@(ReferenceEquals(Focus, rec2) ? "sel" : "")" @onclick="() => _focus = s">
+                            <td><input type="checkbox" checked="@_checked.Contains(s)" @onclick:stopPropagation="true" @onchange="e => Tick(s, (bool)e.Value!)" /></td>
+                            <td>@s</td>
+                            <td>@SaoItems.NameOf(rec2.Id)</td>
+                            <td class="muted">@rec2.Id</td>
+                            <td>@rec2.Category</td>
+                            <td>@(SaoItems.Find(rec2.Id)?.Dlc == true ? "DLC" : "")</td>
+                            <td class="num" @onclick:stopPropagation="true"><Num Value="rec2.Quantity" Max="999999" OnSet="v => SetQty(rec2, (int)v)" /></td>
+                            <td class="num" @onclick:stopPropagation="true">
+                                @if (rec2.Category == ItemCategory.Weapon)
+                                {
+                                    <Num Value="rec2.Level" Min="1" Max="999" OnSet="v => SetLevel(rec2, (int)v)" />
+                                }
+                            </td>
+                            <td class="muted">@(rec2.Category == ItemCategory.Weapon ? string.Join(", ", rec2.Chips.Select(c => $"{SaoItems.ChipName(c.Id)} {c.Effect * 100:0.##}%")) : "")</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+}
+
+@code {
+    [CascadingParameter] public EditorState S { get; set; } = default!;
+
+    /// <summary>The most chips seen on one weapon in a real save.</summary>
+    private const int MaxChips = 4;
+
+    private string _kind = "All kinds";
+    private bool _dlcOnly;
+    private string _pick = "";
+    private string _filter = "";
+    private int _focus = -1;
+    private readonly HashSet<int> _checked = new();
+
+    private ItemArray? Bag => S.Save!.Inventory;
+    private ItemRecord? Focus => Bag != null && _focus >= 0 && _focus < Bag.Slots.Count && !Bag.Slots[_focus].IsEmpty ? Bag.Slots[_focus] : null;
+
+    private IEnumerable<(ItemRecord, int)> Rows => Bag!.Slots.Select((r, i) => (r, i))
+        .Where(x => !x.r.IsEmpty)
+        .Where(x => _filter.Length == 0 || SaoItems.NameOf(x.r.Id).Contains(_filter, StringComparison.OrdinalIgnoreCase)
+                    || x.r.Id.Contains(_filter, StringComparison.OrdinalIgnoreCase));
+
+    private IEnumerable<SaoItem> WantedItems => SaoItems.All
+        .Where(i => SaoItems.CategoryOf(i.Id) != null)
+        .Where(i => _kind == "All kinds" || i.Kind == _kind)
+        .Where(i => !_dlcOnly || i.Dlc);
+
+    private List<Picker.Item> Wanted => WantedItems.Select(i => new Picker.Item(i.Id, i.Name, i.Dlc ? i.Kind + " · DLC" : i.Kind)).ToList();
+
+    private void Tick(int slot, bool on) { if (on) _checked.Add(slot); else _checked.Remove(slot); }
+
+    private void BagFull() => S.Notice($"The bag is full ({Bag!.Slots.Count} of {Bag.Slots.Count} slots). The game has no more room.\n\nTick items you do not need (for example extra weapons), click Remove ticked, then add again.");
+
+    private void AddOne()
+    {
+        if (_pick.Length == 0) return;
+        if (!Bag!.Slots.Any(s => s.IsEmpty)) { BagFull(); return; }
+        bool ok = SaoEdits.AddItem(S.Save!, Bag, _pick);
+        if (ok) S.MarkDirty();
+        S.Log(ok ? $"Added {SaoItems.NameOf(_pick)}." : "Could not add: the bag is full, or there is no item of that kind in the save to copy.");
+    }
+
+    private void AddAll()
+    {
+        if (!Bag!.Slots.Any(s => s.IsEmpty)) { BagFull(); return; }
+        var missing = SaoEdits.Missing(Bag, WantedItems);
+        if (missing.Count == 0) { S.Log("You already have all of those."); return; }
+        S.Ask($"Add {missing.Count} items to the bag ({Bag.Slots.Count(s => s.IsEmpty)} free slots)?", () =>
+        {
+            int added = missing.TakeWhile(i => SaoEdits.AddItem(S.Save!, Bag, i.Id)).Count();
+            if (added > 0) S.MarkDirty();
+            S.Log($"Added {added} of {missing.Count} items.");
+        });
+    }
+
+    private void RemoveChecked()
+    {
+        var slots = _checked.ToList();
+        S.Ask($"Remove {slots.Count} item(s) from the bag?", () =>
+        {
+            var blank = S.Save!.Arrays.SelectMany(a => a.Slots).FirstOrDefault(s => s.IsEmpty);
+            if (blank == null) { S.Notice("No empty slot was found to copy, so nothing was removed."); return; }
+            foreach (var i in slots) Bag!.Slots[i] = blank.Clone();
+            _checked.Clear();
+            S.MarkDirty();
+            S.Log($"Removed {slots.Count} item(s).");
+        });
+    }
+
+    private void SetQty(ItemRecord r, int v) { r.Quantity = Math.Max(0, v); S.MarkDirty(); S.Log($"{SaoItems.NameOf(r.Id)}: quantity {v}."); }
+    private void SetLevel(ItemRecord r, int v) { r.Level = Math.Clamp(v, 1, 999); S.MarkDirty(); S.Log($"{SaoItems.NameOf(r.Id)}: level {v}."); }
+
+    private void SetChip(ItemRecord r, int n, byte id) { r.Chips[n] = r.Chips[n] with { Id = id }; S.MarkDirty(); }
+    private void SetEffect(ItemRecord r, int n, float percent) { r.Chips[n] = r.Chips[n] with { Effect = percent / 100f }; S.MarkDirty(); }
+    private void DropChip(ItemRecord r, int n) { r.Chips.RemoveAt(n); S.MarkDirty(); S.Log($"{SaoItems.NameOf(r.Id)}: chip removed."); }
+    private void AddChip(ItemRecord r)
+    {
+        byte first = SaoItems.Chips.FirstOrDefault(c => c.id > 0).id;
+        r.Chips.Add(new Chip(first, 0.01f));
+        S.MarkDirty();
+        S.Log($"{SaoItems.NameOf(r.Id)}: chip added.");
+    }
+}

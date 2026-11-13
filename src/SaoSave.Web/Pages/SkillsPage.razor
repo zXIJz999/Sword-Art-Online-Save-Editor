@@ -1,0 +1,58 @@
+@if (S.Save!.Characters.Count == 0)
+{
+    <p class="warning">No characters were found in this save.</p>
+    return;
+}
+<div class="form">
+    <div class="toolbar">
+        <select @onchange="e => { S.SkillsWho = int.Parse(e.Value!.ToString()!); S.Rebuild(); }">
+            @for (int i = 0; i < S.Save.Characters.Count; i++)
+            {
+                var c = S.Save.Characters[i];
+                <option value="@i" selected="@(i == Who)">@c.Label  (@c.Name)</option>
+            }
+        </select>
+    </div>
+    <p class="note">Equipped skills per weapon: pick a skill for each cell (gadgets are in the list too).</p>
+    <div class="table-wrap" style="overflow:visible">
+        <table>
+            <thead><tr><th>Weapon</th><th>Skill 1</th><th>Skill 2</th><th>Skill 3</th><th>Skill 4</th></tr></thead>
+            <tbody>
+                @for (int layer = 0; layer < Math.Min(Ch.SkillSetLayers, 16); layer++)
+                {
+                    int l = layer;
+                    var set = Ch.GetSkillSet(l);
+                    <tr>
+                        <td>@(l < SaoCharacter.LayerNames.Length ? SaoCharacter.LayerNames[l] : $"Layer {l + 1}")</td>
+                        @for (int slot = 0; slot < 4; slot++)
+                        {
+                            int k = slot;
+                            <td style="min-width:230px">
+                                <Picker Items="_items" Current="@((k < set.Length ? set[k] : -1).ToString())" OnPick="key => Set(l, k, int.Parse(key))" />
+                            </td>
+                        }
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@code {
+    [CascadingParameter] public EditorState S { get; set; } = default!;
+
+    private int Who => Math.Clamp(S.SkillsWho, 0, S.Save!.Characters.Count - 1);
+    private SaoCharacter Ch => S.Save!.Characters[Who];
+
+    private static readonly List<Picker.Item> _items =
+        new[] { new Picker.Item("-1", "(empty)") }
+            .Concat(SaoSkills.All.Select(s => new Picker.Item(s.Id.ToString(), s.Name, s.Types)))
+            .ToList();
+
+    private void Set(int layer, int slot, int id)
+    {
+        Ch.SetSkillSetSlot(layer, slot, id);
+        S.MarkDirty();
+        S.Log($"{Ch.Label}: {(layer < SaoCharacter.LayerNames.Length ? SaoCharacter.LayerNames[layer] : $"Layer {layer + 1}")} skill {slot + 1} = {SaoSkills.NameOf(id)}");
+    }
+}

@@ -1,0 +1,54 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sword Art Online: Fatal Bullet Save Editor - Made by zXIJz</title>
+    <meta name="description" content="Free save editor for Sword Art Online: Fatal Bullet saves (decrypted PS4 and PC). Runs in your browser; your save never leaves your PC." />
+    <base href="/" />
+    <link rel="stylesheet" href="css/app.css" />
+</head>
+
+<body>
+    <div id="app">
+        <div class="boot">
+            <div class="boot-title">Sword Art Online: Fatal Bullet Save Editor</div>
+            <div class="boot-credit">Made by zXIJz</div>
+            <div class="boot-note">Loading the editor... (the first visit takes a few seconds)</div>
+        </div>
+    </div>
+
+    <div id="blazor-error-ui">
+        Something went wrong. <a href="" class="reload">Reload the page</a>
+        <a class="dismiss">x</a>
+    </div>
+    <script>
+        // Scrolls a tree row into view (rows carry their path in data-path).
+        window.zxScrollToSoon = function (path) { setTimeout(() => window.zxScrollTo(path), 120); };
+        window.zxScrollTo = function (path) {
+            for (const el of document.querySelectorAll("[data-path]")) {
+                if (el.getAttribute("data-path") === path) { el.scrollIntoView({ block: "center" }); return; }
+            }
+        };
+        // Hands the edited save to the browser as a download. Nothing is uploaded anywhere.
+        window.zxDownload = function (name, bytes) {
+            const blob = new Blob([bytes], { type: "application/octet-stream" });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = name;
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+            setTimeout(() => URL.revokeObjectURL(url), 10000);
+        };
+        // Warn before leaving the page with unsaved changes.
+        window.zxDirty = false;
+        window.addEventListener("beforeunload", e => { if (window.zxDirty) { e.preventDefault(); e.returnValue = ""; } });
+        window.zxSetDirty = d => { window.zxDirty = d; };
+    </script>
+    <script src="_framework/blazor.webassembly.js"></script>
+</body>
+
+</html>

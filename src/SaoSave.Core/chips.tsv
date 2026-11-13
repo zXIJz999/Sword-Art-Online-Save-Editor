@@ -1,0 +1,61 @@
+Id	Name
+1	STR
+2	VIT
+3	INT
+4	AGI (DONT EDIT)
+5	DEX
+6	LUC
+7	Weapon Attack
+8	Physical Attack
+9	Optical Attack
+10	Explosive Attack
+11	Gadget Attack
+15	Damage When Off-Guard
+14	Damage vs. Mechs
+13	Damage vs. Lifeforms
+12	Damage vs. Humanoids
+17	Damage at Max HP
+18	Damage When Near Death
+19	Weak Spot Damage
+16	Damage From Behind
+23	Physical Defense
+24	Optical Defense
+25	Explosive Defense
+26	Melee Defense
+29	Defense vs. Mechs
+28	Defense vs. Lifeforms
+27	Defense vs. Humanoids
+30	Blaze Damage
+31	Poison Damage
+21	Critical Rate
+39	Max HP
+38	of Max HP Recovered Over 1 Minute
+40	HP Recovery
+32	Debuff Resistance
+33	Debuff Duration
+22	Debuff Stacking
+34	Blaze Resistance
+35	Poison Resistance
+36	Suppression Resistance
+37	Electromagnetic Stun Resistance
+41	Decreased Detectability When Crouching
+42	Bullet Circle Stabilization Speed
+43	Bullet Circle Accuracy
+44	Movement Speed
+45	Reload Speed
+46	Auto-Reload Rate
+47	Avoid Instant Death When HP is {Value}% or More
+48	Recharge Time
+49	Ammo Acquired
+50	Ammo Capacity
+51	Treasure Hunt
+52	Item Drop Rate
+53	Rare Item Drop Rate
+54	Weight
+55	Medals Acquired
+56	Medal Gauge Increase
+57	Trade Value
+58	Experience Points
+20	Critical Damage
+59	Effective Range
+60	Overheat Buildup & Duration

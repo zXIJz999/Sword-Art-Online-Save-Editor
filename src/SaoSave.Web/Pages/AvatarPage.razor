@@ -1,0 +1,141 @@
+@inject IJSRuntime JS
+
+@if (S.Tree == null)
+{
+    <p class="warning">This save could not be read as the game's full layout, so this page is off. The other pages still work.@(S.TreeError == null ? "" : "\n" + S.TreeError)</p>
+}
+else if (_people.Count == 0)
+{
+    <p class="warning">No characters were found.</p>
+}
+else
+{
+    <div class="form" style="max-width:900px">
+        <div class="toolbar">
+            <select @onchange="e => { S.AvatarWho = int.Parse(e.Value!.ToString()!); S.Rebuild(); }">
+                @for (int i = 0; i < _people.Count; i++)
+                {
+                    <option value="@i" selected="@(i == Who)">@_people[i].label</option>
+                }
+            </select>
+        </div>
+        <p class="note">
+            Replace the whole avatar of the character picked above with one from somewhere else. A whole-avatar copy changes the gender too unless you
+            untick it: costumes end in F or M, so check the Looks and costumes page afterwards.
+            Everything is checked against the game's layout before it is accepted. Save, then test in game.
+        </p>
+
+        <h2>Replace the whole avatar of @_people[Who].label</h2>
+        <div class="row"><label></label><label><input type="checkbox" @bind="_copyGender" /> Also copy the gender</label></div>
+
+        <h2>From another character in this save</h2>
+        <div class="row"><label></label>
+            <select @onchange="e => _from = int.Parse(e.Value!.ToString()!)">
+                @for (int i = 0; i < _people.Count; i++)
+                {
+                    <option value="@i" selected="@(i == From)">@_people[i].label</option>
+                }
+            </select>
+            <button @onclick="CopyFromCharacter">Copy it here</button>
+        </div>
+
+        <h2>From a saved avatar of this save slot (the game's own avatar presets)</h2>
+        <div class="row"><label></label>
+            @if (_presets.Count == 0)
+            {
+                <span class="muted">(none saved in this slot)</span>
+            }
+            else
+            {
+                <select @onchange="e => _preset = int.Parse(e.Value!.ToString()!)">
+                    @for (int i = 0; i < _presets.Count; i++)
+                    {
+                        <option value="@i" selected="@(i == _preset)">@_presets[i].label</option>
+                    }
+                </select>
+                <button @onclick="UsePreset">Use it here</button>
+            }
+        </div>
+
+        <h2>Avatar files (share one avatar on its own)</h2>
+        <div class="row"><label></label>
+            <div style="display:flex; gap:8px">
+                <button @onclick="SaveAvatarFile">Save this avatar to a file</button>
+                <label class="file-button">Use an avatar file here<InputFile OnChange="OpenAvatarFile" accept=".saoavatar,*/*" /></label>
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+    [CascadingParameter] public EditorState S { get; set; } = default!;
+
+    private List<(int slot, bool arfa, string label)> _people = new();
+    private List<(string label, AvatarData data)> _presets = new();
+    private bool _copyGender = true;
+    private int _from = -1, _preset;
+
+    private int Who => Math.Clamp(S.AvatarWho, 0, Math.Max(0, _people.Count - 1));
+    private int From => _from >= 0 ? Math.Min(_from, _people.Count - 1) : Math.Min(Who == 0 ? 1 : 0, _people.Count - 1);
+
+    protected override void OnInitialized()
+    {
+        if (S.Tree == null) return;
+        _people = SaoAvatar.Characters(S.Tree, S.Save!);
+        if (_people.Count > 0) _presets = SaoAvatar.Presets(S.Save!, S.Tree, _people[Who].slot);
+    }
+
+    private void Paste(AvatarData a, string from, bool gender)
+    {
+        var target = _people[Who];
+        S.Ask($"Replace the whole avatar of {target.label} with {from}?", () =>
+        {
+            try
+            {
+                var next = SaoAvatar.Apply(S.Save!, S.Tree!, target.slot, target.arfa, a, gender);
+                S.Replace(next, $"Avatar: {target.label} now uses {from}.");
+            }
+            catch (Exception ex) when (ex is ArgumentException or SaoParseException or InvalidDataException)
+            {
+                S.Notice($"Nothing was changed.\n\n{ex.Message}");
+            }
+        });
+    }
+
+    private void CopyFromCharacter()
+    {
+        var src = _people[From];
+        if (SaoAvatar.Read(S.Save!, S.Tree!, src.slot, src.arfa) is { } a) Paste(a, src.label, _copyGender);
+        else S.Notice("That character's avatar could not be read.");
+    }
+
+    private void UsePreset()
+    {
+        if (_preset < 0 || _preset >= _presets.Count) return;
+        Paste(_presets[_preset].data, _presets[_preset].label, false);
+    }
+
+    private async Task SaveAvatarFile()
+    {
+        var p = _people[Who];
+        if (SaoAvatar.Read(S.Save!, S.Tree!, p.slot, p.arfa) is not { } a) { S.Notice("That character's avatar could not be read."); return; }
+        string name = S.Val(S.Tree!.Find($"Slot {p.slot}/{(p.arfa ? "ArFA-sys" : "Player")}/name/source"));
+        await JS.InvokeVoidAsync("zxDownload", $"{(name.Length == 0 ? "avatar" : name)}.saoavatar", SaoAvatar.ToFile(a));
+        S.Log($"Avatar: saved {p.label} to a file.");
+    }
+
+    private async Task OpenAvatarFile(InputFileChangeEventArgs e)
+    {
+        try
+        {
+            using var stream = e.File.OpenReadStream(maxAllowedSize: 1024 * 1024);
+            using var ms = new MemoryStream();
+            await stream.CopyToAsync(ms);
+            Paste(SaoAvatar.FromFile(ms.ToArray()), e.File.Name, _copyGender);
+        }
+        catch (Exception ex) when (ex is IOException or InvalidDataException)
+        {
+            S.Notice(ex.Message);
+        }
+    }
+}

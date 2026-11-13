@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>SaoSave.Core</RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="items.tsv" LogicalName="SaoSave.Core.items.tsv" />
+    <EmbeddedResource Include="chips.tsv" LogicalName="SaoSave.Core.chips.tsv" />
+    <EmbeddedResource Include="skills.tsv" LogicalName="SaoSave.Core.skills.tsv" />
+  </ItemGroup>
+</Project>

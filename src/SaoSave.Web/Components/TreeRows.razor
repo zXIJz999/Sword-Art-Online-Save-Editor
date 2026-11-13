@@ -1,0 +1,69 @@
+@foreach (var node in Visible(Parent))
+{
+    var n = node;
+    bool open = S.Expanded.Contains(n.Path);
+    <div class="arow @(S.Selected == n.Path ? "sel" : "") @(AdvancedHelp.Risky(n) ? "risky" : "")" data-path="@n.Path" @onclick="() => Select(n)">
+        <span class="what" style="padding-left:@(Depth * 18)px">
+            @if (n.Children.Count > 0)
+            {
+                <span class="twisty" @onclick="() => Toggle(n)" @onclick:stopPropagation="true">@(open ? "▾" : "▸")</span>
+            }
+            else
+            {
+                <span class="twisty"></span>
+            }
+            @DisplayName(n)
+        </span>
+        <span>
+            @if (SaoTreeEdit.Editable(n))
+            {
+                <input type="text" value="@S.Val(n)" @onclick:stopPropagation="true" @onchange="e => Edit(n, e.Value?.ToString() ?? string.Empty)" />
+            }
+            else if (n.Kind == NodeKind.List)
+            {
+                <span class="muted">@n.Count items</span>
+            }
+        </span>
+        <span class="info">@AdvancedHelp.Describe(n)</span>
+    </div>
+    @if (open && n.Children.Count > 0)
+    {
+        <TreeRows Parent="n" Depth="Depth + 1" />
+    }
+}
+
+@code {
+    [CascadingParameter] public EditorState S { get; set; } = default!;
+    [Parameter] public SaoNode Parent { get; set; } = default!;
+    [Parameter] public int Depth { get; set; }
+
+    private IEnumerable<SaoNode> Visible(SaoNode p) => p.Children.Where(c => S.ShowUnknown || !AdvancedHelp.IsUnknown(c));
+
+    public static string DisplayName(SaoNode n)
+    {
+        // Show item names next to inventory entries.
+        if (n.Kind == NodeKind.Group && n.Name.StartsWith('[') && n.Children.FirstOrDefault()?.Name == "item id" && n.Children[0].Text is { } id && id != ItemRecord.EmptyId)
+            return $"{n.Name}  {SaoItems.NameOf(id)}";
+        return AdvancedHelp.Friendly(n);
+    }
+
+    private void Toggle(SaoNode n)
+    {
+        if (!S.Expanded.Remove(n.Path)) S.Expanded.Add(n.Path);
+    }
+
+    private void Select(SaoNode n) => S.Selected = n.Path;
+
+    private void Edit(SaoNode n, string text)
+    {
+        if (text == S.Val(n)) return;
+        string what = $"{n.Path} = {text}";
+        if (AdvancedHelp.Risky(n))
+        {
+            S.Ask($"\"{DisplayName(n)}\" is easy to break.\n\nChange it anyway?", () => S.Apply(n, text, what));
+            S.Rebuild(); // puts the old value back in the box until the question is answered
+            return;
+        }
+        S.Apply(n, text, what);
+    }
+}

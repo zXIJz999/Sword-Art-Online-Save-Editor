@@ -1,0 +1,56 @@
+@* A searchable drop-down (the desktop editor's look-up box). *@
+<div class="picker">
+    <button class="value" @onclick="Toggle">
+        <span>@CurrentName</span><span class="info">▾</span>
+    </button>
+    @if (_open)
+    {
+        <div class="backdrop" @onclick="Close"></div>
+        <div class="pop">
+            <div class="search"><input type="text" placeholder="Type to search" @bind="_search" @bind:event="oninput" /></div>
+            <div class="list">
+                @{
+                    var matches = Items.Where(i => _search.Length == 0 || i.Name.Contains(_search, StringComparison.OrdinalIgnoreCase)).Take(151).ToList();
+                }
+                @foreach (var it in matches.Take(150))
+                {
+                    var item = it;
+                    <div class="opt @(item.Key == Current ? "current" : "")" @onclick="() => Pick(item)">
+                        <span>@item.Name</span><span class="info">@item.Info</span>
+                    </div>
+                }
+                @if (matches.Count > 150)
+                {
+                    <div class="opt muted">Keep typing to narrow the list...</div>
+                }
+                @if (matches.Count == 0)
+                {
+                    <div class="opt muted">Nothing matches.</div>
+                }
+            </div>
+        </div>
+    }
+</div>
+
+@code {
+    public sealed record Item(string Key, string Name, string Info = "");
+
+    [Parameter] public List<Item> Items { get; set; } = new();
+    [Parameter] public string Current { get; set; } = "";
+    [Parameter] public string Placeholder { get; set; } = "(pick one)";
+    [Parameter] public EventCallback<string> OnPick { get; set; }
+
+    private bool _open;
+    private string _search = "";
+
+    private string CurrentName => Items.FirstOrDefault(i => i.Key == Current)?.Name ?? Placeholder;
+
+    private void Toggle() { _open = !_open; _search = ""; }
+    private void Close() => _open = false;
+
+    private async Task Pick(Item item)
+    {
+        _open = false;
+        await OnPick.InvokeAsync(item.Key);
+    }
+}

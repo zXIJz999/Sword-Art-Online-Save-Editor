@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- Developer tool: pulls item names out of a local copy of the game. Never ship work\. -->
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>SaoSave.Dump</RootNamespace>
+    <RollForward>Major</RollForward>
+  </PropertyGroup>
+
+</Project>

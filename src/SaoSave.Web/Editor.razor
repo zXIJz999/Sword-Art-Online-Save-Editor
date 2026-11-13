@@ -1,0 +1,157 @@
+@implements IDisposable
+@inject IJSRuntime JS
+
+<CascadingValue Value="S" IsFixed="true">
+    <div class="app">
+        <div class="header">
+            <div class="brand">
+                <div class="title">@EditorState.AppTitle</div>
+                <div class="credit">@EditorState.Credit</div>
+            </div>
+            <div class="buttons">
+                <label class="file-button">Open a save<InputFile OnChange="OpenFile" accept=".sav,*/*" /></label>
+                <button class="primary" disabled="@(S.Save == null)" @onclick="Download">Save (download)</button>
+                <button disabled="@(S.Save == null)" @onclick="Undo">Undo all changes</button>
+            </div>
+            @if (S.Save != null)
+            {
+                <span class="muted">@S.FileName@(S.Dirty ? " (not saved yet)" : "")</span>
+            }
+        </div>
+
+        <div class="tabs">
+            @foreach (var t in Tabs)
+            {
+                var tab = t;
+                <div class="tab @(tab == Current ? "active" : "")" @onclick="() => Select(tab)">@tab</div>
+            }
+        </div>
+
+        <div class="content" @key="S.Generation">
+            @switch (Current)
+            {
+                case "Welcome": <StartPage />; break;
+                case "Characters": <CharactersPage />; break;
+                case LooksTab: <LooksPage />; break;
+                case "Avatar": <AvatarPage />; break;
+                case "Skills": <SkillsPage />; break;
+                case "Inventory": <InventoryPage />; break;
+                case "Progress": <ProgressPage />; break;
+                case AdvancedTab: <AdvancedPage />; break;
+                case "Log": <pre class="log">@string.Join("\n", S.LogLines)</pre>; break;
+                default: <AboutPage />; break;
+            }
+        </div>
+
+        <div class="footer">
+            <span class="status">@S.Status</span>
+            <span class="credit">@EditorState.AppTitle - @EditorState.Credit</span>
+        </div>
+    </div>
+
+    @if (S.Question != null)
+    {
+        <div class="dialog-back">
+            <div class="dialog">
+                <p style="white-space:pre-wrap">@S.Question</p>
+                <div class="actions">
+                    @if (S.NoticeOnly)
+                    {
+                        <button class="primary" @onclick="() => S.Answer(true)">OK</button>
+                    }
+                    else
+                    {
+                        <button @onclick="() => S.Answer(false)">No</button>
+                        <button class="primary" @onclick="() => S.Answer(true)">Yes</button>
+                    }
+                </div>
+            </div>
+        </div>
+    }
+</CascadingValue>
+
+@code {
+    private const string LooksTab = "Looks and costumes";
+    private const string AdvancedTab = "Advanced (everything)";
+
+    private EditorState S { get; } = new();
+    private string _tab = "Welcome";
+    private bool _lastDirty;
+
+    private IEnumerable<string> Tabs => S.Save == null
+        ? new[] { "Welcome", "About" }
+        : new[] { "Characters", LooksTab, "Avatar", "Skills", "Inventory", "Progress", AdvancedTab, "Log", "About" };
+
+    private string Current => Tabs.Contains(_tab) ? _tab : Tabs.First();
+
+    protected override void OnInitialized()
+    {
+        S.Changed += OnChanged;
+        S.Log($"Ready. {SaoItems.All.Count:N0} game items known.");
+    }
+
+    private void OnChanged()
+    {
+        if (S.Dirty != _lastDirty)
+        {
+            _lastDirty = S.Dirty;
+            _ = JS.InvokeVoidAsync("zxSetDirty", S.Dirty);
+        }
+        StateHasChanged();
+    }
+
+    /// <summary>Pages that use the whole layout read it first (this also writes pending edits).</summary>
+    private void Select(string tab)
+    {
+        _tab = tab;
+        if (tab is LooksTab or "Avatar" or AdvancedTab) S.EnsureTree();
+    }
+
+    private void OpenFile(InputFileChangeEventArgs e)
+    {
+        if (S.Dirty)
+        {
+            S.Ask("You have changes that are not saved. Throw them away and open the new file?", async () => await Load(e.File));
+            return;
+        }
+        _ = Load(e.File);
+    }
+
+    private async Task Load(IBrowserFile file)
+    {
+        try
+        {
+            using var stream = file.OpenReadStream(maxAllowedSize: 64 * 1024 * 1024);
+            using var ms = new MemoryStream();
+            await stream.CopyToAsync(ms);
+            S.Open(ms.ToArray(), file.Name);
+            _tab = Tabs.First();
+        }
+        catch (Exception ex) when (ex is IOException or InvalidDataException or ArgumentException)
+        {
+            S.Log($"Could not open {file.Name}: {ex.Message} If it is a PS4 save, decrypt it first.");
+        }
+        StateHasChanged();
+    }
+
+    private async Task Download()
+    {
+        try
+        {
+            var bytes = S.Export();
+            await JS.InvokeVoidAsync("zxDownload", S.FileName, bytes);
+        }
+        catch (InvalidDataException ex)
+        {
+            S.Log($"Save failed: {ex.Message}");
+        }
+    }
+
+    private void Undo()
+    {
+        if (!S.Dirty) { S.Log("There are no changes to undo."); return; }
+        S.Ask("Throw away every change since the file was opened?", () => S.Undo());
+    }
+
+    public void Dispose() => S.Changed -= OnChanged;
+}

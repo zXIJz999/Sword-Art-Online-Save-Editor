@@ -1,0 +1,245 @@
+Id	Name	SP	Types
+106	Taunting Yell 1	15	ShotGun,AssaultRifle,HandGun,SubMachineGun,SniperRifle,HeavyFirearms,Launcher,Sword,BulletAndSword
+107	Taunting Yell 2	35	ShotGun,AssaultRifle,HandGun,SubMachineGun,SniperRifle,HeavyFirearms,Launcher,Sword,BulletAndSword
+108	Taunting Yell 3	65	ShotGun,AssaultRifle,HandGun,SubMachineGun,SniperRifle,HeavyFirearms,Launcher,Sword,BulletAndSword
+171	Taunting Yell 3	390	ShotGun,AssaultRifle,HandGun,SubMachineGun,SniperRifle,HeavyFirearms,Launcher,Sword,BulletAndSword
+115	Tactical Roll 1	10	HandGun,ShotGun,SubMachineGun,AssaultRifle,SniperRifle,Launcher,BulletAndSword
+116	Tactical Roll 2	30	HandGun,ShotGun,SubMachineGun,AssaultRifle,SniperRifle,Launcher,BulletAndSword
+117	Tactical Roll 3	60	HandGun,ShotGun,SubMachineGun,AssaultRifle,SniperRifle,Launcher,BulletAndSword
+223	Auto Reload  4	360	HandGun,ShotGun,SubMachineGun,AssaultRifle,SniperRifle,Launcher,BulletAndSword
+118	Acrobatic Fire 1	15	HandGun,SubMachineGun
+119	Acrobatic Fire 2	35	HandGun,SubMachineGun
+120	Acrobatic Fire 3	65	HandGun,SubMachineGun
+224	Avd Shot  4	390	HandGun,SubMachineGun
+15	Omnia Vanitas 1	20	HandGun,ShotGun,SubMachineGun,AssaultRifle,SniperRifle,HeavyFirearms,Launcher,Sword,BulletAndSword
+16	Omnia Vanitas 2	40	HandGun,ShotGun,SubMachineGun,AssaultRifle,SniperRifle,HeavyFirearms,Launcher,Sword,BulletAndSword
+17	Omnia Vanitas 3	70	HandGun,ShotGun,SubMachineGun,AssaultRifle,SniperRifle,HeavyFirearms,Launcher,Sword,BulletAndSword
+185	Blink  4	420	HandGun,ShotGun,SubMachineGun,AssaultRifle,SniperRifle,HeavyFirearms,Launcher,Sword,BulletAndSword
+226	Azure Tempest	10	Sword,BulletAndSword
+112	Buff Armor  1	25	HandGun,ShotGun,SubMachineGun,AssaultRifle,SniperRifle,HeavyFirearms,Launcher,Sword,BulletAndSword
+113	Buff Armor  2	45	HandGun,ShotGun,SubMachineGun,AssaultRifle,SniperRifle,HeavyFirearms,Launcher,Sword,BulletAndSword
+114	Buff Armor  3	75	HandGun,ShotGun,SubMachineGun,AssaultRifle,SniperRifle,HeavyFirearms,Launcher,Sword,BulletAndSword
+172	Buff Armor  4	450	HandGun,ShotGun,SubMachineGun,AssaultRifle,SniperRifle,HeavyFirearms,Launcher,Sword,BulletAndSword
+3	Power Form 1	15	HandGun,ShotGun,SubMachineGun,AssaultRifle,SniperRifle,HeavyFirearms,Launcher,Sword,BulletAndSword
+4	Power Form 2	35	HandGun,ShotGun,SubMachineGun,AssaultRifle,SniperRifle,HeavyFirearms,Launcher,Sword,BulletAndSword
+5	Power Form 3	65	HandGun,ShotGun,SubMachineGun,AssaultRifle,SniperRifle,HeavyFirearms,Launcher,Sword,BulletAndSword
+156	Power Form 3	390	HandGun,ShotGun,SubMachineGun,AssaultRifle,SniperRifle,HeavyFirearms,Launcher,Sword,BulletAndSword
+69	Concentration 1	10	AssaultRifle,SniperRifle,HeavyFirearms,HandGun,ShotGun,SubMachineGun,Launcher,BulletAndSword
+70	Concentration 2	30	AssaultRifle,SniperRifle,HeavyFirearms,HandGun,ShotGun,SubMachineGun,Launcher,BulletAndSword
+71	Concentration 3	60	AssaultRifle,SniperRifle,HeavyFirearms,HandGun,ShotGun,SubMachineGun,Launcher,BulletAndSword
+166	Concentration 3	360	AssaultRifle,SniperRifle,HeavyFirearms,HandGun,ShotGun,SubMachineGun,Launcher,BulletAndSword
+75	Bullet Line Eraser 1	20	AssaultRifle,SniperRifle,HeavyFirearms
+76	Bullet Line Eraser 2	40	AssaultRifle,SniperRifle,HeavyFirearms
+77	Bullet Line Eraser 3	70	AssaultRifle,SniperRifle,HeavyFirearms
+167	Bullet Line Eraser 3	420	AssaultRifle,SniperRifle,HeavyFirearms
+103	Buff Defense  1	10	HandGun,ShotGun,SubMachineGun,AssaultRifle,SniperRifle,HeavyFirearms,Launcher,Sword,BulletAndSword
+104	Buff Defense  2	30	HandGun,ShotGun,SubMachineGun,AssaultRifle,SniperRifle,HeavyFirearms,Launcher,Sword,BulletAndSword
+105	Buff Defense  3	60	HandGun,ShotGun,SubMachineGun,AssaultRifle,SniperRifle,HeavyFirearms,Launcher,Sword,BulletAndSword
+170	Buff Defense  4	360	HandGun,ShotGun,SubMachineGun,AssaultRifle,SniperRifle,HeavyFirearms,Launcher,Sword,BulletAndSword
+81	Sentry Style 	10	HandGun,ShotGun,SubMachineGun,AssaultRifle,SniperRifle,Launcher,BulletAndSword
+45	Enhance Gadget 1	15	AssaultRifle,SniperRifle,HeavyFirearms,HandGun,ShotGun,SubMachineGun,Launcher,Sword,BulletAndSword
+46	Enhance Gadget 2	35	AssaultRifle,SniperRifle,HeavyFirearms,HandGun,ShotGun,SubMachineGun,Launcher,Sword,BulletAndSword
+47	Enhance Gadget 3	65	AssaultRifle,SniperRifle,HeavyFirearms,HandGun,ShotGun,SubMachineGun,Launcher,Sword,BulletAndSword
+161	Enhance Gadget 3	390	AssaultRifle,SniperRifle,HeavyFirearms,HandGun,ShotGun,SubMachineGun,Launcher,Sword,BulletAndSword
+100	Buff Hate  1	10	HandGun,ShotGun,SubMachineGun,AssaultRifle,SniperRifle,HeavyFirearms,Launcher,Sword,BulletAndSword
+101	Buff Hate  2	30	HandGun,ShotGun,SubMachineGun,AssaultRifle,SniperRifle,HeavyFirearms,Launcher,Sword,BulletAndSword
+102	Buff Hate  3	60	HandGun,ShotGun,SubMachineGun,AssaultRifle,SniperRifle,HeavyFirearms,Launcher,Sword,BulletAndSword
+169	Buff Hate  4	360	HandGun,ShotGun,SubMachineGun,AssaultRifle,SniperRifle,HeavyFirearms,Launcher,Sword,BulletAndSword
+6	Conceal 1	15	HandGun,ShotGun,SubMachineGun,AssaultRifle,SniperRifle,HeavyFirearms,Launcher,Sword,BulletAndSword
+7	Conceal 2	35	HandGun,ShotGun,SubMachineGun,AssaultRifle,SniperRifle,HeavyFirearms,Launcher,Sword,BulletAndSword
+8	Conceal 3	65	HandGun,ShotGun,SubMachineGun,AssaultRifle,SniperRifle,HeavyFirearms,Launcher,Sword,BulletAndSword
+157	Conceal 3	390	HandGun,ShotGun,SubMachineGun,AssaultRifle,SniperRifle,HeavyFirearms,Launcher,Sword,BulletAndSword
+121	Buff Hyper Sense		HandGun,ShotGun,SubMachineGun,AssaultRifle,SniperRifle,HeavyFirearms,Launcher,Sword,BulletAndSword
+27	Speed Form 1	10	HandGun,ShotGun,SubMachineGun,AssaultRifle,SniperRifle,HeavyFirearms,Launcher,Sword,BulletAndSword
+28	Speed Form 2	30	HandGun,ShotGun,SubMachineGun,AssaultRifle,SniperRifle,HeavyFirearms,Launcher,Sword,BulletAndSword
+29	Speed Form 3	60	HandGun,ShotGun,SubMachineGun,AssaultRifle,SniperRifle,HeavyFirearms,Launcher,Sword,BulletAndSword
+159	Speed Form 3	360	HandGun,ShotGun,SubMachineGun,AssaultRifle,SniperRifle,HeavyFirearms,Launcher,Sword,BulletAndSword
+78	Phantom Bullet 1		SniperRifle,HeavyFirearms
+79	Phantom Bullet 2	45	SniperRifle,HeavyFirearms
+80	Phantom Bullet 3	75	SniperRifle,HeavyFirearms
+168	Phantom Bullet 3	450	SniperRifle,HeavyFirearms
+122	Trigger Happy 1	20	AssaultRifle,SniperRifle,HandGun,ShotGun,SubMachineGun,BulletAndSword
+123	Trigger Happy 2	40	AssaultRifle,SniperRifle,HandGun,ShotGun,SubMachineGun,BulletAndSword
+124	Trigger Happy 3	70	AssaultRifle,SniperRifle,HandGun,ShotGun,SubMachineGun,BulletAndSword
+173	Trigger Happy 3	420	AssaultRifle,SniperRifle,HandGun,ShotGun,SubMachineGun,BulletAndSword
+42	Hawk Eye 1	10	HandGun,ShotGun,SubMachineGun,AssaultRifle,SniperRifle,HeavyFirearms,Launcher,Sword,BulletAndSword
+43	Hawk Eye 2	30	HandGun,ShotGun,SubMachineGun,AssaultRifle,SniperRifle,HeavyFirearms,Launcher,Sword,BulletAndSword
+44	Hawk Eye 3	60	HandGun,ShotGun,SubMachineGun,AssaultRifle,SniperRifle,HeavyFirearms,Launcher,Sword,BulletAndSword
+160	Hawk Eye 3	360	HandGun,ShotGun,SubMachineGun,AssaultRifle,SniperRifle,HeavyFirearms,Launcher,Sword,BulletAndSword
+153	Nanotech Boost Shot 1	30	HandGun,ShotGun,SubMachineGun,AssaultRifle,SniperRifle,HeavyFirearms,Launcher,BulletAndSword
+154	Nanotech Boost Shot 2	50	HandGun,ShotGun,SubMachineGun,AssaultRifle,SniperRifle,HeavyFirearms,Launcher,BulletAndSword
+155	Nanotech Boost Shot 3	80	HandGun,ShotGun,SubMachineGun,AssaultRifle,SniperRifle,HeavyFirearms,Launcher,BulletAndSword
+182	Nanotech Boost Shot 3	480	HandGun,ShotGun,SubMachineGun,AssaultRifle,SniperRifle,HeavyFirearms,Launcher,BulletAndSword
+147	Bullet Area Buff ATK  1	20	HandGun,ShotGun,SubMachineGun,AssaultRifle,SniperRifle,HeavyFirearms,Launcher,BulletAndSword
+148	Bullet Area Buff ATK  2	40	HandGun,ShotGun,SubMachineGun,AssaultRifle,SniperRifle,HeavyFirearms,Launcher,BulletAndSword
+149	Bullet Area Buff ATK  3	70	HandGun,ShotGun,SubMachineGun,AssaultRifle,SniperRifle,HeavyFirearms,Launcher,BulletAndSword
+180	Bullet Area Buff ATK  4	420	HandGun,ShotGun,SubMachineGun,AssaultRifle,SniperRifle,HeavyFirearms,Launcher,BulletAndSword
+150	Bullet Area Buff DEF  1	25	HandGun,ShotGun,SubMachineGun,AssaultRifle,SniperRifle,HeavyFirearms,Launcher,BulletAndSword
+151	Bullet Area Buff DEF  2	45	HandGun,ShotGun,SubMachineGun,AssaultRifle,SniperRifle,HeavyFirearms,Launcher,BulletAndSword
+152	Bullet Area Buff DEF  3	75	HandGun,ShotGun,SubMachineGun,AssaultRifle,SniperRifle,HeavyFirearms,Launcher,BulletAndSword
+181	Bullet Area Buff DEF  4	450	HandGun,ShotGun,SubMachineGun,AssaultRifle,SniperRifle,HeavyFirearms,Launcher,BulletAndSword
+132	Bullet Area Heal  1	20	HandGun,ShotGun,SubMachineGun,AssaultRifle,SniperRifle,HeavyFirearms,Launcher,BulletAndSword
+133	Bullet Area Heal  2	40	HandGun,ShotGun,SubMachineGun,AssaultRifle,SniperRifle,HeavyFirearms,Launcher,BulletAndSword
+134	Bullet Area Heal  3	70	HandGun,ShotGun,SubMachineGun,AssaultRifle,SniperRifle,HeavyFirearms,Launcher,BulletAndSword
+176	Bullet Area Heal  4	420	HandGun,ShotGun,SubMachineGun,AssaultRifle,SniperRifle,HeavyFirearms,Launcher,BulletAndSword
+54	Power Break Shot 1	15	HandGun,ShotGun,SubMachineGun,AssaultRifle,SniperRifle,HeavyFirearms,Launcher,BulletAndSword
+55	Power Break Shot 2	35	HandGun,ShotGun,SubMachineGun,AssaultRifle,SniperRifle,HeavyFirearms,Launcher,BulletAndSword
+56	Power Break Shot 3	65	HandGun,ShotGun,SubMachineGun,AssaultRifle,SniperRifle,HeavyFirearms,Launcher,BulletAndSword
+163	Power Break Shot 3	390	HandGun,ShotGun,SubMachineGun,AssaultRifle,SniperRifle,HeavyFirearms,Launcher,BulletAndSword
+141	Bullet Attack Up  1	15	HandGun,ShotGun,SubMachineGun,AssaultRifle,SniperRifle,HeavyFirearms,Launcher,BulletAndSword
+142	Bullet Attack Up  2	35	HandGun,ShotGun,SubMachineGun,AssaultRifle,SniperRifle,HeavyFirearms,Launcher,BulletAndSword
+143	Bullet Attack Up  3	65	HandGun,ShotGun,SubMachineGun,AssaultRifle,SniperRifle,HeavyFirearms,Launcher,BulletAndSword
+178	Bullet Attack Up  4	390	HandGun,ShotGun,SubMachineGun,AssaultRifle,SniperRifle,HeavyFirearms,Launcher,BulletAndSword
+72	Eagle-Eye Beacon 1	15	SniperRifle
+73	Eagle-Eye Beacon 2	35	SniperRifle
+74	Eagle-Eye Beacon 3	65	SniperRifle
+196	Bullet Beacon  4	390	SniperRifle
+255	Bullet Black Hole Enemyonly  2	50	HandGun,ShotGun,SubMachineGun,AssaultRifle,SniperRifle,HeavyFirearms,Launcher,BulletAndSword
+97	Graviton Shot 1	30	Launcher,HeavyFirearms
+98	Bullet Black Hole  2	50	Launcher,HeavyFirearms
+99	Bullet Black Hole  3	80	Launcher,HeavyFirearms
+221	Bullet Black Hole  4	480	Launcher,HeavyFirearms
+135	Bullet Critical Up  1	25	HandGun,ShotGun,SubMachineGun,AssaultRifle,SniperRifle,HeavyFirearms,Launcher,BulletAndSword
+136	Bullet Critical Up  2	45	HandGun,ShotGun,SubMachineGun,AssaultRifle,SniperRifle,HeavyFirearms,Launcher,BulletAndSword
+137	Bullet Critical Up  3	75	HandGun,ShotGun,SubMachineGun,AssaultRifle,SniperRifle,HeavyFirearms,Launcher,BulletAndSword
+177	Bullet Critical Up  4	450	HandGun,ShotGun,SubMachineGun,AssaultRifle,SniperRifle,HeavyFirearms,Launcher,BulletAndSword
+131	Bullet Cure	15	HandGun,ShotGun,SubMachineGun,AssaultRifle,SniperRifle,HeavyFirearms,Launcher,BulletAndSword
+57	Armor Break Shot 1	15	HandGun,ShotGun,SubMachineGun,AssaultRifle,SniperRifle,HeavyFirearms,Launcher,BulletAndSword
+58	Armor Break Shot 2	35	HandGun,ShotGun,SubMachineGun,AssaultRifle,SniperRifle,HeavyFirearms,Launcher,BulletAndSword
+59	Armor Break Shot 3	65	HandGun,ShotGun,SubMachineGun,AssaultRifle,SniperRifle,HeavyFirearms,Launcher,BulletAndSword
+164	Armor Break Shot 3	390	HandGun,ShotGun,SubMachineGun,AssaultRifle,SniperRifle,HeavyFirearms,Launcher,BulletAndSword
+144	Bullet Defense Up  1	15	HandGun,ShotGun,SubMachineGun,AssaultRifle,SniperRifle,HeavyFirearms,Launcher,BulletAndSword
+145	Bullet Defense Up  2	35	HandGun,ShotGun,SubMachineGun,AssaultRifle,SniperRifle,HeavyFirearms,Launcher,BulletAndSword
+146	Bullet Defense Up  3	65	HandGun,ShotGun,SubMachineGun,AssaultRifle,SniperRifle,HeavyFirearms,Launcher,BulletAndSword
+179	Bullet Defense Up  4	390	HandGun,ShotGun,SubMachineGun,AssaultRifle,SniperRifle,HeavyFirearms,Launcher,BulletAndSword
+66	Electrodynamic Stunner 1	25	HandGun,ShotGun,SubMachineGun,AssaultRifle,SniperRifle,BulletAndSword
+67	Electrodynamic Stunner 2	45	HandGun,ShotGun,SubMachineGun,AssaultRifle,SniperRifle,BulletAndSword
+68	Toxic Gas Blast 1	75	HandGun,ShotGun,SubMachineGun,AssaultRifle,SniperRifle,BulletAndSword
+195	Bullet EMStun  4	450	HandGun,ShotGun,SubMachineGun,AssaultRifle,SniperRifle,BulletAndSword
+128	Bullet Health Recover  1	10	HandGun,ShotGun,SubMachineGun,AssaultRifle,SniperRifle,HeavyFirearms,Launcher,BulletAndSword
+129	Bullet Health Recover  2	30	HandGun,ShotGun,SubMachineGun,AssaultRifle,SniperRifle,HeavyFirearms,Launcher,BulletAndSword
+130	Bullet Health Recover  3	60	HandGun,ShotGun,SubMachineGun,AssaultRifle,SniperRifle,HeavyFirearms,Launcher,BulletAndSword
+175	Bullet Health Recover  4	360	HandGun,ShotGun,SubMachineGun,AssaultRifle,SniperRifle,HeavyFirearms,Launcher,BulletAndSword
+125	Bullet Heal  1	10	HandGun,ShotGun,SubMachineGun,AssaultRifle,SniperRifle,HeavyFirearms,Launcher,BulletAndSword
+126	Bullet Heal  2	30	HandGun,ShotGun,SubMachineGun,AssaultRifle,SniperRifle,HeavyFirearms,Launcher,BulletAndSword
+127	Bullet Heal  3	60	HandGun,ShotGun,SubMachineGun,AssaultRifle,SniperRifle,HeavyFirearms,Launcher,BulletAndSword
+174	Bullet Heal  4	360	HandGun,ShotGun,SubMachineGun,AssaultRifle,SniperRifle,HeavyFirearms,Launcher,BulletAndSword
+85	Heat Detonator 1	10	HeavyFirearms
+86	Heat Detonator 2	30	HeavyFirearms
+87	Heat Detonator 3	60	HeavyFirearms
+198	Bullet Heat Exchange  4	360	HeavyFirearms
+94	Nemesis Burst 1	25	Launcher
+95	Nemesis Burst 2	45	Launcher
+96	Nemesis Burst 3	75	Launcher
+220	Bullet HPExchange  4	450	Launcher
+48	Blazing Blast 1	20	HandGun,ShotGun,SubMachineGun,AssaultRifle,HeavyFirearms,BulletAndSword
+49	Blazing Blast 2	40	HandGun,ShotGun,SubMachineGun,AssaultRifle,HeavyFirearms,BulletAndSword
+50	Blazing Blast 3	70	HandGun,ShotGun,SubMachineGun,AssaultRifle,HeavyFirearms,BulletAndSword
+193	Bullet Incendiary  4	420	HandGun,ShotGun,SubMachineGun,AssaultRifle,HeavyFirearms,BulletAndSword
+91	Plasma Blast 1	25	Launcher
+92	Plasma Blast 2	45	Launcher
+93	Plasma Blast 3	75	Launcher
+219	Bullet Plasma Explosion  4	450	Launcher
+63	Toxic Gas Blast 1	20	HandGun,ShotGun,SubMachineGun,AssaultRifle,HeavyFirearms,BulletAndSword
+64	Toxic Gas Blast 2	40	HandGun,ShotGun,SubMachineGun,AssaultRifle,HeavyFirearms,BulletAndSword
+65	Toxic Gas Blast 3	70	HandGun,ShotGun,SubMachineGun,AssaultRifle,HeavyFirearms,BulletAndSword
+194	Bullet Poison Gas  4	420	HandGun,ShotGun,SubMachineGun,AssaultRifle,HeavyFirearms,BulletAndSword
+138	Bullet Resurrect	50	HandGun,ShotGun,SubMachineGun,AssaultRifle,SniperRifle,HeavyFirearms,Launcher,BulletAndSword
+88	Explosive Shot 1	15	HandGun,ShotGun,SniperRifle,BulletAndSword
+89	Explosive Shot 2	35	HandGun,ShotGun,SniperRifle,BulletAndSword
+90	Explosive Shot 3	65	HandGun,ShotGun,SniperRifle,BulletAndSword
+199	Bullet Shell  4	390	HandGun,ShotGun,SniperRifle,BulletAndSword
+231	Power Break Shot 1		HandGun,ShotGun,SubMachineGun,AssaultRifle,SniperRifle,HeavyFirearms,Launcher,BulletAndSword
+232	Power Break Shot 2	35	HandGun,ShotGun,SubMachineGun,AssaultRifle,SniperRifle,HeavyFirearms,Launcher,BulletAndSword
+233	Power Break Shot 3	65	HandGun,ShotGun,SubMachineGun,AssaultRifle,SniperRifle,HeavyFirearms,Launcher,BulletAndSword
+234	Power Break Shot 3	390	HandGun,ShotGun,SubMachineGun,AssaultRifle,SniperRifle,HeavyFirearms,Launcher,BulletAndSword
+60	Tranquilizer Shot 1	15	HandGun,ShotGun,SubMachineGun,AssaultRifle,SniperRifle,HeavyFirearms,Launcher,BulletAndSword
+61	Tranquilizer Shot 2	35	HandGun,ShotGun,SubMachineGun,AssaultRifle,SniperRifle,HeavyFirearms,Launcher,BulletAndSword
+62	Tranquilizer Shot 3	65	HandGun,ShotGun,SubMachineGun,AssaultRifle,SniperRifle,HeavyFirearms,Launcher,BulletAndSword
+165	Tranquilizer Shot 3	390	HandGun,ShotGun,SubMachineGun,AssaultRifle,SniperRifle,HeavyFirearms,Launcher,BulletAndSword
+235	Toxic Gas Blast 1		HandGun,ShotGun,SubMachineGun,AssaultRifle,HeavyFirearms,SniperRifle,BulletAndSword,Launcher
+236	Toxic Gas Blast 2	35	HandGun,ShotGun,SubMachineGun,AssaultRifle,HeavyFirearms,SniperRifle,BulletAndSword,Launcher
+237	Toxic Gas Blast 3	65	HandGun,ShotGun,SubMachineGun,AssaultRifle,HeavyFirearms,SniperRifle,BulletAndSword,Launcher
+238	Bullet Virus  4	390	HandGun,ShotGun,SubMachineGun,AssaultRifle,HeavyFirearms,SniperRifle,BulletAndSword,Launcher
+227	Cyclone 1		Sword,BulletAndSword
+228	Cyclone 1	35	Sword,BulletAndSword
+229	Cyclone 1	65	Sword,BulletAndSword
+230	Cyclone 1	390	Sword,BulletAndSword
+24	Dual Orbital 1	30	BulletAndSword
+25	Dual Orbital 2	50	BulletAndSword
+26	Dual Orbital 3	80	BulletAndSword
+188	Double Circular  4	480	BulletAndSword
+109	Focus Guard  1	20	HandGun,ShotGun,SubMachineGun,AssaultRifle,SniperRifle,HeavyFirearms,Launcher,Sword,BulletAndSword
+110	Focus Guard  2	40	HandGun,ShotGun,SubMachineGun,AssaultRifle,SniperRifle,HeavyFirearms,Launcher,Sword,BulletAndSword
+111	Focus Guard  3	65	HandGun,ShotGun,SubMachineGun,AssaultRifle,SniperRifle,HeavyFirearms,Launcher,Sword,BulletAndSword
+222	Focus Guard  4	420	HandGun,ShotGun,SubMachineGun,AssaultRifle,SniperRifle,HeavyFirearms,Launcher,Sword,BulletAndSword
+51	Replenish Gadget 1	30	HandGun,ShotGun,SubMachineGun,AssaultRifle,SniperRifle,HeavyFirearms,Launcher,Sword,BulletAndSword
+52	Replenish Gadget 2	50	HandGun,ShotGun,SubMachineGun,AssaultRifle,SniperRifle,HeavyFirearms,Launcher,Sword,BulletAndSword
+53	Replenish Gadget 3	80	HandGun,ShotGun,SubMachineGun,AssaultRifle,SniperRifle,HeavyFirearms,Launcher,Sword,BulletAndSword
+162	Replenish Gadget 3	480	HandGun,ShotGun,SubMachineGun,AssaultRifle,SniperRifle,HeavyFirearms,Launcher,Sword,BulletAndSword
+205	Ailment Resist (gadget)		Gadget
+217	Ailment Resist 2 (gadget)		Gadget
+213	Anti-AR Veil		Gadget
+209	Berserk (gadget)		Gadget
+218	Berserk 2 (gadget)		Gadget
+211	Blazing Knife (gadget)		Gadget
+204	Combat Knife (gadget)		Gadget
+208	Dekanade (gadget)		Gadget
+207	Flash Bang (gadget)		Gadget
+200	Grenade (gadget)		Gadget
+202	Health Recover (gadget)		Gadget
+214	Health Recover 2 (gadget)		Gadget
+203	Mine (gadget)		Gadget
+216	Metamaterial Camouflage		Gadget
+201	Plasma Grenade (gadget)		Gadget
+210	Poison Knife (gadget)		Gadget
+239	Revive (gadget)		Gadget
+206	Smoke Grenade (gadget)		Gadget
+215	Sticky Grenade (gadget)		Gadget
+212	Stun Mine (gadget)		Gadget
+240	Suppression Mine (gadget)		Gadget
+39	Gunstinger 1	25	ShotGun,AssaultRifle
+40	Gunstinger 2	45	ShotGun,AssaultRifle
+41	Gunstinger 3	75	ShotGun,AssaultRifle
+192	Gun Sting  4	450	ShotGun,AssaultRifle
+21	Horizontal Square 1	25	Sword,BulletAndSword
+22	Horizontal Square 2	45	Sword,BulletAndSword
+23	Horizontal Square 3	75	Sword,BulletAndSword
+187	Horizontal Square  4	450	Sword,BulletAndSword
+30	Quick Shot 1	15	HandGun
+31	Quick Shot 2	35	HandGun
+32	Quick Shot 3	65	HandGun
+189	Quick Draw  4	390	HandGun
+9	Sword Barrier 1		Sword,BulletAndSword
+10	Sword Barrier 2	35	Sword,BulletAndSword
+11	Sword Barrier 3	65	Sword,BulletAndSword
+158	Sword Barrier 3	390	Sword,BulletAndSword
+36	Scatter Wheel 1	15	SubMachineGun,AssaultRifle
+37	Scatter Wheel 2	35	SubMachineGun,AssaultRifle
+38	Scatter Wheel 3	65	SubMachineGun,AssaultRifle
+191	Scatter Wheel  4	390	SubMachineGun,AssaultRifle
+1	Sharp Nail 2	30	Sword,BulletAndSword
+2	Sharp Nail 3	60	Sword,BulletAndSword
+183	Sharp Nail  4	360	Sword,BulletAndSword
+82	Dash Attack 1	10	HandGun,ShotGun,SubMachineGun,AssaultRifle,SniperRifle,HeavyFirearms,Launcher
+83	Dash Attack 2	30	HandGun,ShotGun,SubMachineGun,AssaultRifle,SniperRifle,HeavyFirearms,Launcher
+84	Dash Attack 3	60	HandGun,ShotGun,SubMachineGun,AssaultRifle,SniperRifle,HeavyFirearms,Launcher
+197	Sld Attack  4	360	HandGun,ShotGun,SubMachineGun,AssaultRifle,SniperRifle,HeavyFirearms,Launcher
+33	Sliding Shot 1	15	SubMachineGun,AssaultRifle
+34	Sliding Shot 2	35	SubMachineGun,AssaultRifle
+35	Sliding Shot 3	65	SubMachineGun,AssaultRifle
+190	Sliding Shot  4	390	SubMachineGun,AssaultRifle
+225	Divine Blossom	15	Sword,BulletAndSword
+18	Star Splash 1	20	Sword,BulletAndSword
+19	Star Splash 2	40	Sword,BulletAndSword
+20	Star Splash 3	70	Sword,BulletAndSword
+186	Star Splash  4	420	Sword,BulletAndSword
+254	Vorpal Strike 1		BulletAndSword
+252	ULT WHF Enemy Only		HeavyFirearms
+253	Vorpal Strike 1		Sword
+251	ULT WSG Enemy Only		ShotGun
+250	ULT WSM Enemy Only		SubMachineGun
+12	Vorpal Strike 1	15	Sword,BulletAndSword
+13	Vorpal Strike 2	35	Sword,BulletAndSword
+14	Vorpal Strike 3	65	Sword,BulletAndSword
+184	Vorpal Strike  4	390	Sword,BulletAndSword
